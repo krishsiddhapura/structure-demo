@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		button.buttons-collection{
+    border-radius: 10px !important;
+    background: transparent !important;
+    border: 1px solid var(--themebglight) !important;
+    color: var(--text-gray) !important;
+    padding: 9px 17px !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+}
+.dt-down-arrow{
+    display: none;
+}
+div.dt-button-collection {
+    width: 153.89px !important;
+    padding: 0 !important;
+    border: 1px solid #d2d2d2 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+.dt-button-collection .button-page-length:last-child{
+    border-bottom: none !important;
+}
+.dt-button-collection .button-page-length{
+    color: var(--text-gray) !important;
+    background: var(--selectbg) !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #d2d2d2 !important;
+    margin: 0 !important;
+    transition: 0.3s;
+}
+.dt-button-background{
+    display: none !important;
+}
+.dt-button-collection .button-page-length:hover, .dt-button-collection .button-page-length.active {
+    background-color: #2c89f9 !important;
+    color: var(--white) !important;
+}
+button.dt-button:active:not(.disabled){
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+.dataTables_empty{
+    background: var(--themebglight);
+    font-size: 22px;
+}
+ul.dtr-details{
+    width: 100%;
+}
+.dataTables_filter label {
+    position: relative;
+}
+.dataTables_filter label:before {
+    content: "";
+    z-index: 9;
+    width: 18px;
+    height: 18px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.dataTables_filter label:before {
+    background-image: url(http://socialinfotech.in/development/interloc/admin/assets/images/search.png);
+}
+.dataTables_filter .form-control {
+    border-radius: 8px;
+    position: relative;
+    border: 1px solid var(--themebglight);
+    color: #a6a9b7;
+    font-size: 16px;
+    padding: 9.5px 25px 9.5px 48px;
+    font-weight: 400;
+    text-align: left;
+    background-color: transparent;
+    margin-left: 0 !important;
+    width: 100% !important;
+    height: 42px;
+}
+.dataTables_filter{
+    text-align: right;
+}
+.dt-buttons .dt-button:hover{
+    background: #00000005 !important;
+}
+.dt-buttons .dt-button {
+    border-radius: 10px;
+    border: 1px solid var(--themebglight) !important;
+    height: 42px;
+    background: transparent;
+    color: #a6a9b7;
+    font-size: 14px;
+    font-weight: 500;
+}
+.dt-buttons{
+    padding-left: 0 5px;
+}
+@media(max-width: 568px){
+    button.buttons-collection{
+        width: 100%;
+        margin-bottom: 4px !important;
+    }
+    div.dataTables_wrapper div.dataTables_filter label{
+        width: 100%;
+    }
+}
+	</style>
+</head>
+<body>
+
+</body>
+
+  	<script>
+
+    $(document).ready(function() {
+
+        $('.datatable').DataTable({
+            responsive: true,
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
+            language: {
+                search: '',
+                searchPlaceholder: "Search Here",   
+            },
+            buttons: [
+                'pageLength','copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+
+    });
+   	</script>
+
+</html>

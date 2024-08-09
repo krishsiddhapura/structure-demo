@@ -1,0 +1,142 @@
+:root{
+    --theme: #2964E2;
+    --theme: rgb(41, 100, 226);
+}
+
+
+:root, [data-bs-theme=light] {
+    --vz-primary-text-emphasis: #4277ec;
+}
+
+.text-theme{
+    color: var(--theme);
+}
+
+.form-label {
+    margin-bottom: .3rem;
+}
+
+.object-contain{
+    object-fit: contain;
+}
+
+
+.fw-500{
+    font-weight: 500;
+}
+
+
+.min-w-170px{
+    min-width: 170px;
+}
+
+.accordion-button-white::after{
+    filter: invert(1);
+}
+
+.btn {
+    --vz-btn-focus-box-shadow: 0 0 0 0.25rem rgba(41, 100, 226 / 50%);
+}
+.edit-item-btn{
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 2px 6px;
+    display: flex;
+    background: rgb(246 175 66 / 10%);
+    cursor: pointer;    
+}
+.remove-item-btn{
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 2px 6px;
+    display: flex !important;
+    background: rgb(238 90 63 / 10%);
+    cursor: pointer;    
+}
+.view-item-btn{
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 2px 6px;
+    display: flex !important;
+    background: rgb(13 170 145 / 10%);
+    cursor: pointer;    
+}
+
+.dt-email {
+    min-width: 170px;
+    word-break: break-all;
+}
+
+
+/* ==================================================================
+============================ Multi image upload dropzone (S)  ====================
+================================================================== */
+/* dropzone  */
+.filedropzone {
+    height: 230px;
+    border: 2px dashed var(--vz-border-color);
+    background: var(--vz-card-bg);
+    border-radius: 6px;
+    position: relative;
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.fiel-upload-group {
+    height: 230px;
+    /* border: 2px dashed var(--vz-border-color); */
+    background: var(--vz-card-bg);
+    border-radius: 6px;
+    position: relative;
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.fiel-upload-group .uploaded-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+.fiel-upload-group .needsclick:not(.uploadedvideo) .editbutton, .uploadedvideo .dragtext {
+    display: none;
+}
+.fiel-upload-group .editbutton {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 9;
+    font-size: 22px;
+}
+.fiel-upload-group .hw-40 {
+    height: 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+}
+.fiel-upload-group .imgupload{
+    border-radius: 5px;
+}
+/* ==================================================================
+============================ Multi image upload dropzone (E)  ====================
+================================================================== */   
+
+
+/* Start Summernote Css */
+.note-color .note-dropdown-menu{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+/* End Summernote Css */
+
+.medication-accordion-action{
+    position: absolute;
+    top: 11px;
+    right: 12px;
+    z-index: 80;
+}
