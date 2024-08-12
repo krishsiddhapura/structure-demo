@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     {
         Admin::truncate();
         $params = [
-            'email' => 'admin@admin.com',
+            'email' => 'admin@gmail.com',
             'password' => bcrypt('admin@123'),
             'name' => 'Krish Siddhapura',
             'image' => NULL,

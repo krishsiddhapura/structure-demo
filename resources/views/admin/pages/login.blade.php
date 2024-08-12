@@ -20,6 +20,7 @@
     <link href="{{asset('assets/admin/css/app.min.css')}}{{ASSET_VERSION}}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{asset('assets/admin/css/custom.css')}}{{ASSET_VERSION}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/admin/libs/sweetalert2/sweetalert2.min.css')}}{{ASSET_VERSION}}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -60,19 +61,20 @@
                                     </div>
 
                                     <div class="mt-4">
-                                        <form id="loginForm" action="{{route('admin.login')}}">
+                                        <form id="loginForm">
+                                            @csrf
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="text" class="form-control" id="email" placeholder="Enter email">
+                                                <input type="text" name="email" class="form-control" id="email" placeholder="Enter email">
                                                 <label id="email-error" class="error text-danger" for="email" style="display: none"></label>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label" for="password-input">Password</label>
+                                                <label class="form-label" for="password">Password</label>
                                                 <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input">
+                                                    <input type="password" name="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password">
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 </div>
-                                                <label id="email-error" class="error text-danger" for="email" style="display: none"></label>
+                                                <label id="password-error" class="error text-danger" for="password" style="display: none"></label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
@@ -80,7 +82,7 @@
                                             </div>
                                             <div class="mt-4">
                                                 <button class="btn btn-success w-100" type="submit" id="loginBtn">
-                                                    <i class="bx bx-loader spinner me-2 d-none"></i>Sign In
+                                                    <i class="bx bx-loader spinner me-2" style="display: none" id="loginBtnSpinner"></i>Sign In
                                                 </button>
                                             </div>
                                         </form>
@@ -122,11 +124,13 @@
 
 <!-- JAVASCRIPT -->
 <script src="{{asset('assets/admin/js/jquery-3.7.1.min.js')}}{{ASSET_VERSION}}"></script>
+<script src="{{asset('assets/admin/js/jquery.validate.min.js')}}{{ASSET_VERSION}}"></script>
 <script src="{{asset('assets/admin/libs/bootstrap/js/bootstrap.bundle.min.js')}}{{ASSET_VERSION}}"></script>
 <script src="{{asset('assets/admin/libs/simplebar/simplebar.min.js')}}{{ASSET_VERSION}}"></script>
 <script src="{{asset('assets/admin/libs/node-waves/waves.min.js')}}{{ASSET_VERSION}}"></script>
 <script src="{{asset('assets/admin/libs/feather-icons/feather.min.js')}}{{ASSET_VERSION}}"></script>
 <script src="{{asset('assets/admin/js/pages/plugins/lord-icon-2.1.0.js')}}{{ASSET_VERSION}}"></script>
+<script src="{{asset('assets/admin/libs/sweetalert2/sweetalert2.all.min.js')}}{{ASSET_VERSION}}"></script>
 
 <script>
     Array.from(document.querySelectorAll(".auth-pass-inputgroup")).forEach(function (e) {
@@ -139,17 +143,18 @@
     });
 
     // Handle Ajax error
-    function actionError(xhr) {
-        if (xhr.status === 401) {
-            console.log("Session Expired: Please Log In Again !",
-                "Please log in again to continue accessing your account.");
-            setTimeout(function() {
-                window.location.href = ""
-            }, 1500);
+    function actionError(xhr,message = "{{ERROR_400}}"){
+        if (xhr.status == 400){
+            sendError(message);
+        } else if (xhr.status === 401) {
+            sendError("{{ERROR_401}}");
+            setTimeout(function (){
+                window.location.href = "{{route('admin.logout')}}"
+            },1500);
         } else if (xhr.status === 403) {
-            console.log("Request forbidden or not permission !");
+            sendError("{{ERROR_403}}")
         } else if (xhr.status === 500) {
-            console.log("Internal server error !", "We're sorry, something went wrong.");
+            sendError("{{ERROR_500}}")
         }
     }
 
@@ -165,24 +170,21 @@
         },
         messages: {
             email: {
-                required: "Please enter your email",
-                email: "Enter valid email",
+                required: "The email field is required.",
+                email: "The email must be a valid email address.",
             },
             password: {
-                required: "Please enter your password",
+                required: "The password field is required.",
             }
         },
         errorPlacement: function(error, element) {
-            $(error).addClass('text-danger');
-            element.parent().after(error);
+            element.after(error);
         },
-        success: function(label) {
-            label.closest('.text-danger').remove();
-        },
+        errorClass: "text-danger",
         submitHandler: function(form, e) {
             e.preventDefault();
             $.ajax({
-                url: "",
+                url: "{{route('admin.login-action')}}",
                 method: "post",
                 dataType: "json",
                 data: new FormData(form),
@@ -190,8 +192,8 @@
                 contentType: false,
                 cache: false,
                 beforeSend: function() {
-                    $(".spinner").removeClass('d-none');
-                    $('#loginButton').attr('disabled', 'disabled');
+                    $('#loginButton').attr('disabled',true);
+                    $("#loginBtnSpinner").show();
                 },
                 success: function(result) {
                     Swal.fire({
@@ -204,35 +206,27 @@
                         timer: 2000,
                     });
                     setTimeout(function() {
-                        window.location.href = result.data;
+                        window.location.href = "{{route('admin.dashboard')}}";
                     }, 1000);
                 },
                 error: function(xhr) {
                     let data = xhr.responseJSON;
                     if (data.hasOwnProperty('error')) {
                         if (data.error.hasOwnProperty('email')) {
-                            $(".email-error").html('<label class="error text-danger">' + data.error.email + '</label>');
+                            $("#email-error").html(data.error.email).show();
                         }
                         if (data.error.hasOwnProperty('password')) {
-                            $(".password-error").html('<label class="error text-danger">' + data.error.password + '</label>');
+                            $("#password-error").html(data.error.password).show();
                         }
-                    } else if (xhr.status === 400 && data.hasOwnProperty('message')) {
-                        Swal.fire({
-                            title: "Error!",
-                            text: data.message,
-                            icon: "error",
-                            confirmButtonClass: "btn btn-primary w-md mt-3",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
+                    } else if (data.hasOwnProperty('message')) {
+                        actionError(xhr,data.message)
                     } else {
                         actionError(xhr);
                     }
                 },
                 complete: function() {
-                    $(".spinner").addClass('d-none');
-                    $("#loginButton").removeAttr('disabled');
+                    $('#loginButton').attr('disabled',false);
+                    $("#loginBtnSpinner").hide();
                 },
             });
         }

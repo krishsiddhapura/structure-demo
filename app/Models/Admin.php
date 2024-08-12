@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
     use HasFactory,SoftDeletes;
 
@@ -26,4 +27,14 @@ class Admin extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    function getImage()
+    {
+        return asset('uploads/admin/profile/'.$this->image);
+    }
+
+    function getRole()
+    {
+        return ucfirst(str_replace('-',' ',$this->role));
+    }
 }

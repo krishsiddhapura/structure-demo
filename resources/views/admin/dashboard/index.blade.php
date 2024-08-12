@@ -5,21 +5,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-
                     <div class="h-100">
-                        <div class="row mb-3 pb-1">
-                            <div class="col-12">
-                                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                    <div class="flex-grow-1">
-                                        <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
-                                        <p class="text-muted mb-0">Here's what's happening with your Nurse Para today.</p>
-                                    </div>
-                                </div><!-- end card header -->
-                            </div>
-                            <!--end col-->
-                        </div>
-                        <!--end row-->
-
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
@@ -142,7 +128,77 @@
 
                 </div> <!-- end col -->
             </div>
-
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header border border-dashed border-end-0 border-start-0 border-top-0 ">
+                            <div class="d-flex align-items-center">
+                                <h5 class="card-title mb-0 me-2 flex-grow-1">User List</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="listDatatable table w-100 pt-2 dataTable datatable no-footer" id="customerTable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Profile</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th class="text-center">Join Date</th>
+                                        <th class="text-center">SignIn Type</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="flex-shrink-0">
+                                                    <a href="assets/images/user-placeholder-img.jpg" data-fancybox="">
+                                                        <img src="assets/images/user-placeholder-img.jpg" onerror="userPlaceholder(this);" alt="" class="avatar-sm rounded-circle image_src object-cover border" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Riyan Suhagiya</td>
+                                        <td><p class="dt-email mb-0">riyansuhagiya745@gmail.com</p></td>
+                                        <td class="text-center">12 Jan 2024</td>
+                                        <td class="text-center">Gmail</td>
+                                        <td class="text-center">
+                                            <div class="form-check form-switch form-switch-md d-flex justify-content-center">
+                                                <input type="checkbox" class="form-check-input userStatus" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <ul class="list-inline mb-0 d-flex justify-content-center">
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                    <a class="text-success view-item-btn" href="Javascript:void(0);">
+                                                        <i class="ri-eye-fill fs-16" data-id="13"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                    <a class="text-warning edit-item-btn text-warning" data-bs-toggle="modal" href="#showModal" >
+                                                        <i class="ri-pencil-fill fs-16 editCategory"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                    <a class="text-danger d-inline-block remove-item-btn deleteProduct" data-bs-toggle="modal" href="#deleteOrder">
+                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

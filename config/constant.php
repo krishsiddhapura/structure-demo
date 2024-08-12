@@ -4,10 +4,10 @@ if (!defined('ASSET_VERSION'))
     define('ASSET_VERSION', '?v1.0.0');
 
 if(!defined('IMAGE_PLACEHOLDER'))
-    define('IMAGE_PLACEHOLDER','assets/images/placeholder/image.png');
+    define('IMAGE_PLACEHOLDER','assets/admin/images/placeholder/image.png');
 
 if(!defined('PROFILE_PLACEHOLDER'))
-    define('PROFILE_PLACEHOLDER','assets/images/placeholder/user.png');
+    define('PROFILE_PLACEHOLDER','assets/admin/images/placeholder/user.png');
 
 if(!defined('DT_ERROR'))
     define('DT_ERROR','No data available in table !');
