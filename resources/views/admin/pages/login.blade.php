@@ -143,6 +143,19 @@
     });
 
     // Handle Ajax error
+
+    function sendError(message){
+        Swal.fire({
+            title: "Error!",
+            text: message,
+            icon: "error",
+            confirmButtonClass: "btn btn-primary w-md mt-3",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    }
+
     function actionError(xhr,message = "{{ERROR_400}}"){
         if (xhr.status == 400){
             sendError(message);
