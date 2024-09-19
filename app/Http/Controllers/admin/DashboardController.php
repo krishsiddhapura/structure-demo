@@ -23,6 +23,18 @@ class DashboardController extends Controller
         $user =  User::latest();
         return DataTables::eloquent($user)
             ->addIndexColumn()
+            ->addColumn('profile',function ($row){
+                $img = asset(PROFILE_PLACEHOLDER);
+                    return '<td class="text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="flex-shrink-0">
+                                        <a href="'.$img.'" data-fancybox="">
+                                            <img src="'.$img.'" onerror="userPlaceholder(this);" alt="" class="avatar-sm rounded-circle image_src object-cover border" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>';
+            })
             ->addColumn('created_at', function ($row) {
                 return dateToHuman($row->created_at,'d M Y');
             })
@@ -45,7 +57,7 @@ class DashboardController extends Controller
                             </li>
                         </ul>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['profile','action'])
             ->make(true);
     }
 

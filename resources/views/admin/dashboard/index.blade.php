@@ -229,8 +229,9 @@
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'id', title: 'id', class : 'text-center' },
-                { data: 'email', name: 'email', title: 'email', class : 'text-start' },
+                { data: 'profile', name: 'profile', title: 'profile', class : 'text-center' },
                 { data: 'name', name: 'name', title: 'name', class : 'text-start' },
+                { data: 'email', name: 'email', title: 'email', class : 'text-start' },
                 { data: 'created_at', name: 'created_at', title: 'created at', class : 'text-center' },
                 { data: 'action', name: 'action', title: 'action', class : 'text-center', searching: false },
             ],
