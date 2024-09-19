@@ -29,6 +29,7 @@ Route::middleware(['auth:admin','prevent-back'])->group(function (){
     # Dashboard
     Route::controller(DashboardController::class)->group(function () {
         Route::get('dashboard', 'index')->name('dashboard');
+        Route::get('list-user', 'listUsers')->name('list-users');
     });
 
     # Logout
