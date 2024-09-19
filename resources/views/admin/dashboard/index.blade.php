@@ -204,26 +204,105 @@
 @endsection
 @section('script')
     <script>
-        $('#customerTable').DataTable({
+        dataTable = $('#customerTable').DataTable({
             processing: true,
-            serverSide: true,
             responsive: true,
-            autoWidth: false,
-            "buttons": ["csv", "excel"],
-            order: [[0, "desc"]],
-            ajax: "{{ route('admin.list-users') }}",
-            dataType: "json",
+            serverSide: true,
+            info: true,
+            select: false,
+            dom: "Bfrtip",
+            lengthMenu: [
+                [10, 25, 50, 75],
+                ["10 rows", "25 rows", "50 rows", "75 rows"],
+            ],
+            buttons: ["pageLength"],
+            language: {
+                zeroRecords: zeroRecords,
+                search: "",
+                searchPlaceholder: "Search Here",
+                processing: processing,
+                emptyTable: emptyTable,
+                paginate: {
+                    next: '<i class="ri-arrow-right-s-line">',
+                    previous: '<i class="ri-arrow-left-s-line">',
+                },
+            },
             columns: [
-                { data: 'DT_RowIndex', name: 'id', title: 'id' },
-                { data: 'email', name: 'email', title: 'email' },
-                { data: 'name', name: 'name', title: 'name' },
-                { data: 'created_at', name: 'created_at', title: 'created at' },
+                { data: 'DT_RowIndex', name: 'id', title: 'id', class : 'text-center' },
+                { data: 'email', name: 'email', title: 'email', class : 'text-start' },
+                { data: 'name', name: 'name', title: 'name', class : 'text-start' },
+                { data: 'created_at', name: 'created_at', title: 'created at', class : 'text-center' },
+                { data: 'action', name: 'action', title: 'action', class : 'text-center', searching: false },
             ],
-            dom: 'lBfrtip',
-            buttons: [
-                'excel', 'csv', 'pdf'
-            ],
-            "lengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]]
+            ajax: {
+                url: '{{ route("admin.list-users") }}',
+                type: "POST",
+                dataType: "JSON",
+                data: function (f){
+                    f._token = "{{csrf_token()}}";
+                },
+                error: function (xhr) {
+                    dataTableError("openCallTable",xhr.responseJSON.message);
+                    actionError(xhr);
+                },
+            },
+            responsive: {
+                breakpoints: [
+                    { name: "desktop", width: Infinity },
+                    { name: "tablet", width: 1024 },
+                    { name: "fablet", width: 768 },
+                    { name: "phone", width: 480 },
+                ],
+            },
         });
+
+        // Delete User
+        function removeUser(id,element){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Are you sure you want to remove this user ?",
+                icon: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, remove",
+                cancelButtonText: "No, cancel!",
+                confirmButtonClass: "btn btn-danger mt-2 text-white rounded px-4 fs-16",
+                cancelButtonClass: "btn btn-light ms-2 mt-2 border rounded px-4 fs-16",
+                buttonsStyling: !1,
+            }).then(function (t) {
+                if (t.value) {
+                    $.ajax({
+                        url: "{{route('admin.remove-user')}}",
+                        dataType: "JSON",
+                        method: "POST",
+                        data: {
+                            "user_id": id,
+                            "_token": "{{csrf_token()}}",
+                        },
+                        beforeSend: function (){
+                            $(element).html('<i class="spinner-border fs-10 spinner-border-sm m-1 mx-0"></i>');
+                            $(element).attr('disabled',true);
+                        },
+                        success: function (data) {
+                            sendSuccess(data.message);
+                            dataTable.ajax.reload();
+                        },
+                        error: function (xhr) {
+                            data = xhr.responseJSON;
+                            if (data.hasOwnProperty('error')) {
+                                if (data.error.hasOwnProperty('user_id')) {
+                                    sendError(data.error.user_id);
+                                }
+                            } else {
+                                sendError(data.message);
+                            }
+                            actionError(xhr);
+                        },
+                        complete: function (){
+                            $(element).attr('disabled',false);
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endsection

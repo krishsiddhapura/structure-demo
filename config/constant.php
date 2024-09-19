@@ -26,3 +26,8 @@ if(!defined('ERROR_500'))
 
 if (!defined('CURRENCY'))
     define('CURRENCY', "₹");
+
+
+// FOR API PARSING
+if(!defined('BASE_URL'))
+    define('BASE_URL', "http://localhost/");
